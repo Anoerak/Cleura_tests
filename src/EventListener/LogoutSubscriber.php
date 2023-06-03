@@ -22,6 +22,6 @@ class LogoutSubscriber extends AbstractController implements EventSubscriberInte
 
 	public function onLogout(LogoutEvent $event): void
 	{
-		$this->addFlash('success', 'you are now logged out!!');
+		$this->addFlash('success', 'You are logged out!! You can tell me now, are you a hacker?');
 	}
 }

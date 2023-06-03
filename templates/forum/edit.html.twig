@@ -1,0 +1,19 @@
+{% extends "base.html.twig" %}
+
+{% block title %}
+	Cleura | Edit Forum
+{% endblock %}
+
+{% block body %}
+	<section id="forum-edit">
+		<h1>Editing Forum
+			{{ forum.name}}</h1>
+		<div class="form">
+			{{ form_start(form) }}
+			{{ form_widget(form) }}
+			<input class="btn btn-primary" type="submit" value="Edit"/>
+			<a href={{path('app_admin')}} class="cancel__button">Cancel</a>
+			{{ form_end(form) }}
+		</div>
+	</section>
+{% endblock %}

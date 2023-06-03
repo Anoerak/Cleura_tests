@@ -1,11 +1,73 @@
 {% extends "base.html.twig" %}
 
+{% block javascripts %}
+	{{ parent() }}
+	{{ encore_entry_script_tags('admin') }}
+{% endblock %}
+
 {% block title %}Cleura | Admin Dashboard
 {% endblock %}
 
 {% block body %}
 	<section id="admin">
 		<h1>Admin</h1>
-		<div class="admin__dahsboard"></div>
+		<p>Welcome to the Admin dashboard</p>
+		<div class="admin__dashboard">
+			{% set jsUsers = [] %}
+			{% for user in users %}
+				{% set jsUsers = jsUsers|merge([{
+				'id': user.id,
+				'name': user.name,
+				'email': user.email,
+				'roles': user.roles|join(', '),
+				'edit': path('app_user_edit', {'id': user.id}),
+				'delete': path('app_user_delete', {'id': user.id})
+			}]) %}
+			{% endfor %}
+			{% set jsForums = [] %}
+			{% for forum in forums %}
+				{% set jsForums = jsForums|merge([{
+				'id': forum.id,
+				'name': forum.name,
+				'edit': path('app_forum_edit', {'id': forum.id}),
+				'delete': path('app_forum_delete', {'id': forum.id})
+			}]) %}
+			{% endfor %}
+			{% set jsPosts = [] %}
+			{% for post in posts %}
+				{% set jsPosts = jsPosts|merge([{
+				'id': post.id,
+				'title': 'Title ' ~ post.id,
+				'content': post.message,
+				'author': post.author.name,
+				'forum': post.forum.name,
+				'created_at': post.createdAt,
+				'edit': path('app_post_edit', {'id': post.id}),
+				'delete': path('app_post_delete', {'id': post.id})
+			}]) %}
+			{% endfor %}
+
+			<h2>
+				<a id="users-link" class="active">Users</a>
+				<a id="forums-link">Forums</a>
+				<a id="posts-link">Post</a>
+			</h2>
+
+			<div style="display:block" id="users" {{react_component('post/PostsTable', {'users': jsUsers} )}}>
+				Loading...<i class="fa fa-cog fa-spin fa-2x"></i>
+			</div>
+			<div style="display:none" id="forums" {{react_component('post/PostsTable', {'forums': jsForums} )}}>
+				Loading...<i class="fa fa-cog fa-spin fa-2x"></i>
+			</div>
+			<div style="display:none" id="posts" {{react_component('post/PostsTable', {'posts': jsPosts} )}}>
+				Loading...<i class="fa fa-cog fa-spin fa-2x"></i>
+			</div>
+
+			<div class="admin__buttons">
+				<a href={{ path('app_user_create') }} class="btn btn-primary">Add User</a>
+				<a href={{ path('app_forum_create') }} class="btn btn-primary">Add Forum</a>
+			</div>
+		</div>
+
 	</section>
 {% endblock %}

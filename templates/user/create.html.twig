@@ -8,10 +8,12 @@
 	<section id="create-user">
 		<div class="form">
 			{{ form_start(form, {'action' : path('app_user_create')}) }}
-			{{ form_widget(form) }}
-
-			<button type="submit" class="btn btn-success pull-right">Ajouter</button>
-			{{ form_end(form) }}
+			<div id="create-user-from">
+				{{ form_widget(form) }}
+				<button type="submit" class="btn btn-success pull-right">Ajouter</button>
+				<a href={{ path('app_admin')}} class="btn btn-danger">Cancel</a>
+				{{ form_end(form) }}
+			</div>
 		</div>
 	</section>
 {% endblock %}

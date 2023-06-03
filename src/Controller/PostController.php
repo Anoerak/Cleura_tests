@@ -14,19 +14,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class PostController extends AbstractController
 {
-    #[Route('/posts', name: 'app_post')]
-    public function index(): Response
-    {
-        // Redirect to the login if not connected as ADMIN or USER
-        if (!$this->isGranted('ROLE_ADMIN') && !$this->isGranted('ROLE_USER')) {
-            $this->addFlash('danger', 'You must be logged in to see the list of posts!');
-            return $this->redirectToRoute('app_login');
-        }
-
-        return $this->render('post/show.html.twig', [
-            'controller_name' => 'PostController',
-        ]);
-    }
 
     #[Route('/post/{id}', name: 'app_post_show')]
     public function show(EntityManagerInterface $emi, int $id): Response
@@ -37,13 +24,9 @@ class PostController extends AbstractController
             return $this->redirectToRoute('app_login');
         }
 
-        // We get the post from the database
+        // We get the post, the author and the forum from the database
         $post = $emi->getRepository(Post::class)->find($id);
-
-        // We get the author of the post
         $author = $post->getAuthor();
-
-        // We get the forum Id of the post
         $forumId = $post->getForum()->getId();
 
 
@@ -68,32 +51,26 @@ class PostController extends AbstractController
         $forum = $emi->getRepository(Forum::class)->find($forumId);
 
         $post = new Post();
-
         $form = $this->createForm(PostType::class, $post);
-
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            // We get the user from the database
+            // We get the user from the database and set it as the author of the post
             $user = $this->getUser();
-
-            // We set the author and the forum of the post
             $post->setAuthor($user);
             $post->setForum($forum);
-
             // We set the date of the post
             $post->setCreatedAt(new \DateTimeImmutable());
 
             $emi->persist($post);
             $emi->flush();
 
-            $this->addFlash('success', 'New post just added!');
+            $this->addFlash('success', 'New post just added! Wait... Who are you?');
 
-            // We get the id of the post
+            // We get the id of the post and redirect to the show page
             $id = $post->getId();
-
             return $this->redirectToRoute('app_post_show', ['id' => $id]);
         }
 
@@ -111,24 +88,18 @@ class PostController extends AbstractController
         // We get the post from the database
         $post = $emi->getRepository(Post::class)->find($id);
 
-        // Redirect to the login if not connected as ADMIN or USER
+        // If not connected as ADMIN or USER, $post is null or the post does not belong to the user, redirect to the login
         if (!$this->isGranted('ROLE_ADMIN') && !$this->isGranted('ROLE_USER')) {
             $this->addFlash('danger', 'You must be logged in to edit a post!');
             return $this->redirectToRoute('app_login');
-        }
-
-        // If USER and not ADMIN, check if the post belongs to the user
-        if (!$this->isGranted('ROLE_ADMIN')) {
+        } else if (!$post) {
+            $this->addFlash('danger', 'The post you want to edit does not exist!');
+            return $this->redirectToRoute('app_home');
+        } else if (!$this->isGranted('ROLE_ADMIN')) {
             if ($post->getAuthor() != $this->getUser()) {
                 $this->addFlash('danger', 'You can only edit your own posts!');
                 return $this->redirectToRoute('app_post');
             }
-        }
-
-        // If the id is not found, redirect to the Home page
-        if (!$post) {
-            $this->addFlash('danger', 'The post you want to edit does not exist!');
-            return $this->redirectToRoute('app_home');
         }
 
         // We prepare the form
@@ -141,29 +112,22 @@ class PostController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            // We get the user from the database
+            // We get the user from the database and set it as the author of the post
             $user = $this->getUser();
-
-            // We set the author and the forum of the post
             $post->setAuthor($user);
-
-            // We keep the original forum of the post
             $post->setForum($post->getForum());
-
             // We keep the original date of the post
             $post->setCreatedAt($post->getCreatedAt());
-
             // We get the new message of the post
             $post->setMessage($post->getMessage());
 
             $emi->persist($post);
             $emi->flush();
 
-            $this->addFlash('success', 'Modifications saved!');
+            $this->addFlash('success', 'Modifications saved! We can\'t guarantee that the NSA won\'t read them though...');
 
-            // We get the id of the post
+            // We get the id of the post and redirect to the show page
             $id = $post->getId();
-
             return $this->redirectToRoute('app_post_show', ['id' => $id]);
         }
 
@@ -181,21 +145,15 @@ class PostController extends AbstractController
         if (!$this->isGranted('ROLE_ADMIN') && !$this->isGranted('ROLE_USER')) {
             $this->addFlash('danger', 'You must be logged in to delete a post!');
             return $this->redirectToRoute('app_login');
-        }
-
-        // If USER and not ADMIN, check if the post belongs to the user
-        if (!$this->isGranted('ROLE_ADMIN')) {
+        } else if (!$emi->getRepository(Post::class)->find($id)) {
+            $this->addFlash('danger', 'The post you want to delete does not exist!');
+            return $this->redirectToRoute('app_post');
+        } else if (!$this->isGranted('ROLE_ADMIN')) {
             $post = $emi->getRepository(Post::class)->find($id);
             if ($post->getAuthor() != $this->getUser()) {
                 $this->addFlash('danger', 'You can only delete your own posts!');
                 return $this->redirectToRoute('app_post_show', ['id' => $id]);
             }
-        }
-
-        // If the id is not found, redirect to the post list
-        if (!$emi->getRepository(Post::class)->find($id)) {
-            $this->addFlash('danger', 'The post you want to delete does not exist!');
-            return $this->redirectToRoute('app_post');
         }
 
         // We get the forum of the post
@@ -204,7 +162,7 @@ class PostController extends AbstractController
         $emi->remove($emi->getRepository(Post::class)->find($id));
         $emi->flush();
 
-        $this->addFlash('success', 'Post deleted!');
+        $this->addFlash('success', 'Post deleted! A backup has been sent to the NSA. Just in case...');
 
         return $this->redirectToRoute('app_forum_show', ['id' => $forum->getId()]);
     }

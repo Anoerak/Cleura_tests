@@ -6,8 +6,8 @@
 {% block body %}
 	<section id="home">
 		{# <turbo-frame id="turbo-login">
-							<a id="turbo-login-link" href="{{ path('app_login') }}"></a>
-						</turbo-frame> #}
+									<a id="turbo-login-link" href="{{ path('app_login') }}"></a>
+								</turbo-frame> #}
 		{# If connected and if only USER #}
 			{% if app.user and app.user.roles[0] == 'ROLE_USER' %}
 				<h1>
@@ -18,7 +18,7 @@
 					Loading...
 					<i class="fas fa-cog fa-spin fa-2x"></i>
 				</div>
-				<div {{ react_component( 'card/Card', { 'title': 'Profile', 'description': 'Get access/modify your profil informations.', 'path': "/users/#{app.user.id}/edit", 'image' : 'build/images/profile-icon.e9f163e8.png' , 'imageAlt' : 'An icon of a neutral gender person' } ) }}>
+				<div {{ react_component( 'card/Card', { 'title': 'Profile', 'description': 'Get access/modify your profil informations.', 'path': "/user/#{app.user.id}/edit", 'image' : 'build/images/profile-icon.e9f163e8.png' , 'imageAlt' : 'An icon of a neutral gender person' } ) }}>
 					Loading...
 					<i class="fas fa-cog fa-spin fa-2x"></i>
 				</div>
@@ -32,7 +32,7 @@
 					Loading...
 					<i class="fas fa-cog fa-spin fa-2x"></i>
 				</div>
-				<div {{ react_component( 'card/Card', { 'title': 'Profile', 'description': 'Get access/modify your profil informations.', 'path': "/users/#{app.user.id}/edit", 'image' : 'build/images/profile-icon.e9f163e8.png' , 'imageAlt' : 'An icon of a neutral gender person' } ) }}>
+				<div {{ react_component( 'card/Card', { 'title': 'Profile', 'description': 'Get access/modify your profil informations.', 'path': "/user/#{app.user.id}/edit", 'image' : 'build/images/profile-icon.e9f163e8.png' , 'imageAlt' : 'An icon of a neutral gender person' } ) }}>
 					Loading...
 					<i class="fas fa-cog fa-spin fa-2x"></i>
 				</div>

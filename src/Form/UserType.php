@@ -9,6 +9,8 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 // use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 // use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 
@@ -18,14 +20,14 @@ class UserType extends AbstractType
     {
         $builder
             ->add('email', EmailType::class, ['label' => 'email'])
-            // ->add('password', RepeatedType::class, [
-            //     'type' => PasswordType::class,
-            //     'invalid_message' => 'Passwords must match.',
-            //     'required' => false,
-            //     'first_options'  => ['label' => 'Password'],
-            //     'second_options' => ['label' => 'Type your password again'],
-            // ])
-            ->add('name', TextType::class, ['label' => "Name"]);
+            ->add('name', TextType::class, ['label' => "Name"])
+            ->add('password', RepeatedType::class, [
+                'type' => PasswordType::class,
+                'invalid_message' => 'Passwords must match.',
+                'required' => false,
+                'first_options'  => ['label' => 'Password'],
+                'second_options' => ['label' => 'Type your password again'],
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

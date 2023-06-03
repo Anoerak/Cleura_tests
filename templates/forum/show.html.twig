@@ -7,7 +7,7 @@
 	<section id="show-forum">
 		<div class="show__forum">
 			<div class="nav__back__button">
-				<a href="{{ path('app_forum') }}">
+				<a href={{ path('app_forum')}}>
 					<i class="fas fa-arrow-left"></i>
 					Back to forums
 				</a>
@@ -40,8 +40,6 @@
 			}]) %}
 			{% endfor %}
 
-
-			{# If connected and if ADMIN #}
 			{% if app.user and app.user.roles[0] == 'ROLE_ADMIN' %}
 				<div {{react_component('post/PostsTable', {'posts': jsAdminPosts} )}}>
 					Loading...<i class="fa fa-cog fa-spin fa-2x"></i>

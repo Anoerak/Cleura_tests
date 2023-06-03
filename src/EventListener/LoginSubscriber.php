@@ -21,6 +21,6 @@ class LoginSubscriber extends AbstractController implements EventSubscriberInter
 
 	public function onLogin(InteractiveLoginEvent $event): void
 	{
-		$this->addFlash('success', 'You are now logged in!!');
+		$this->addFlash('success', 'You are logged in!! Welcome into the Matrix!');
 	}
 }
