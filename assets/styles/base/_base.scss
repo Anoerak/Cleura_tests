@@ -29,9 +29,19 @@ a {
 	@include button__base($connexion-button-color, $connexion-button-background-color, $connexion-button-border-color);
 }
 
+.btn-primary {
+	@include button__base($primary-button-color, $primary-button-background-color, $primary-button-border-color);
+}
+
 .delete__button,
-.cancel__button {
+.cancel__button,
+.btn-danger {
 	@include button__base($cancel-button-color, $cancel-button-background-color, $cancel-button-border-color);
+}
+
+.nav__back__button {
+	@include button__base($connexion-button-color, $connexion-button-background-color, $connexion-button-border-color);
+	margin-bottom: 2rem;
 }
 
 /*
@@ -49,4 +59,9 @@ a {
 
 .error-warning {
 	@include alert__banner($alertDanger-color, $alertDanger-background-color, $alertDanger-border-color);
+}
+
+.error__warning__message {
+	@include alert__banner($white-text, $alertDanger-background-color, $alertDanger-border-color);
+	padding: 1rem;
 }

@@ -17,6 +17,7 @@ $white-text: #ffffff;
 $black-text: #000000;
 
 // Background colors
+$background-white: #ffffff;
 $background-color: #f5f5f5;
 $background-color-dark: #e7e7e7;
 $background-color-black: #000000;
@@ -47,6 +48,11 @@ $dark-warning: #cc6600;
 $connexion-button-color: $white-text;
 $connexion-button-background-color: $primary-color;
 $connexion-button-border-color: $primary-color-dark;
+
+// Primary button
+$primary-button-color: $white-text;
+$primary-button-background-color: $secondary-color;
+$primary-button-border-color: $secondary-color-dark;
 
 // Cancel button
 $cancel-button-color: $white-text;

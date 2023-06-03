@@ -1,0 +1,40 @@
+#card {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: space-between;
+	width: 300px;
+	height: 400px;
+	padding: 1rem;
+	background-color: $background-white;
+	border-radius: 5px;
+	box-shadow: 0 0 010px rgba(0, 0, 0, 0.1);
+	overflow: hidden;
+	position: relative;
+	transition: all 0.3s ease-in-out;
+	cursor: pointer;
+	&:hover {
+		box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+	}
+	.card {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: space-around;
+		height: 100%;
+		.card_title {
+			height: 3rem;
+		}
+		.card__image {
+			img {
+				height: 10rem;
+				object-fit: cover;
+			}
+		}
+		.card__description {
+			height: 3rem;
+			width: 100%;
+			text-align: center;
+		}
+	}
+}

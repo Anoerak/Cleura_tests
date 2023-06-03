@@ -4,9 +4,60 @@
 {% endblock %}
 
 {% block body %}
-	<section id="forum">
-		<div class="forum">
-			<div class="forum__header">
-				<h1>Forum</h1>
-			</section>
-		{% endblock %}
+	<section id="show-forum">
+		<div class="show__forum">
+			<div class="nav__back__button">
+				<a href="{{ path('app_forum') }}">
+					<i class="fas fa-arrow-left"></i>
+					Back to forums
+				</a>
+			</div>
+			<h1>Forum -
+				{{forum.name}}</h1>
+
+			{% set jsAdminPosts = [] %}
+			{% for post in posts %}
+				{% set jsAdminPosts = jsAdminPosts|merge([{
+				'id': post.id,
+				'title': 'Task ' ~ post.id,
+				'content': post.message,
+				'author': post.author,
+				'created_at': post.createdAt,
+				'consult': path('app_post_show', {'id': post.id}),
+				'edit': path('app_post_edit', {'id': post.id}),
+				'delete': path('app_post_delete', {'id': post.id})
+			}]) %}
+			{% endfor %}
+			{% set jsPosts = [] %}
+			{% for post in posts %}
+				{% set jsPosts = jsPosts|merge([{
+				'id': post.id,
+				'title': 'Task ' ~ post.id,
+				'content': post.message,
+				'author': post.author,
+				'created_at': post.createdAt,
+				'consult': path('app_post_show', {'id': post.id})
+			}]) %}
+			{% endfor %}
+
+
+			{# If connected and if only ADMIN #}
+			{% if app.user and app.user.roles[0] == 'ROLE_ADMIN' %}
+				<div {{react_component('post/PostsTable', {'posts': jsAdminPosts} )}}>
+					Loading...<i class="fa fa-cog fa-spin fa-2x"></i>
+				</div>
+			{% elseif app.user and app.user.roles[0] == 'ROLE_USER' %}
+				<div {{react_component('post/PostsTable', {'posts': jsPosts} )}}>
+					Loading...<i class="fa fa-cog fa-spin fa-2x"></i>
+				</div>
+
+			{% endif %}
+			{# {% for post in posts %}
+																												<div {{ react_component( 'card/Card', { 'title': "Title" , 'description' : "#{post.message}" , 'path' : " /post/#{post.id}" , 'image' : 'build/images/forum-icon.9d24e89e.png' , 'imageAlt' : 'An icon of chat bubbles' } ) }}>
+																												Loading...
+																												<i class=" fas fa-cog fa-spin fa-2x"></i>
+																												</div>
+																												{% endfor %} #}
+		</div>
+	</div>
+</section>{% endblock %}

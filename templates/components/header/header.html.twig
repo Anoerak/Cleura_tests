@@ -16,7 +16,8 @@
 				{% if app.user %}
 					<a href="{{ path('app_logout') }}" class="navbar__link">Log Out</a>
 				{% else %}
-					<a href="{{ path('app_login') }}" class="navbar__link">Connexion</a>
+					{# <a id="connexion-button" class=" navbar__link">Get Started</a> #}
+					<a href="{{ path('app_login') }}" class="navbar__link">Get Started</a>
 				{% endif %}
 			</div>
 			<img src="{{ asset('build/images/Cleura-Globe-Language.b0470c45.png')}}" alt="planet earth globe logo">

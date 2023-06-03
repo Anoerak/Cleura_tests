@@ -3,8 +3,15 @@
 @import '~/assets/styles/base/base.scss';
 @import '~/assets/styles/base/fonts.scss';
 
+@import '~/assets/react/controllers/card/Card.scss';
+@import '~/assets/react/controllers/post/Post.scss';
+@import '~/assets/react/controllers/post/PostTable.scss';
+
 @import '~/templates/components/header/header.scss';
 @import '~/templates/components/footer/footer.scss';
 @import '~/templates/components/form/form.scss';
 
 @import '~/templates/home/home.scss';
+@import '~/templates/forum/forum.scss';
+@import '~/templates/forum/show_forum.scss';
+@import '~/templates/post/show_post.scss';

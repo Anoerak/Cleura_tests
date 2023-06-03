@@ -1,0 +1,19 @@
+.postsList__container {
+	border-radius: 5px;
+	box-shadow: 0 0 1.25rem 0 rgba(0, 0, 0, 0.1);
+	.postsList__tableContainer {
+		border-radius: 5px;
+		div:nth-child(1) {
+			border-top-left-radius: 5px;
+			border-top-right-radius: 5px;
+		}
+		div:nth-child(3) {
+			border-bottom-left-radius: 5px;
+			border-bottom-right-radius: 5px;
+			> nav {
+				border-bottom-left-radius: 5px;
+				border-bottom-right-radius: 5px;
+			}
+		}
+	}
+}

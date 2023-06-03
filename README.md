@@ -12,13 +12,15 @@
 ## Install
 
 ```sh
-Install dependencies with composer install and npm install
+Download the project
 ```
-
-## Usage
 
 ```sh
 Update the .env file with your database credentials
+```
+
+```sh
+Install dependencies with composer install and npm install
 ```
 
 ```sh
@@ -34,7 +36,29 @@ Run the command `symfony console doctrine:fixtures:load` to load the fixtures
 ```
 
 ```sh
+Run the command `npm run watch` to build the assets
+```
+
+## Usage
+
+```sh
 Run the command `symfony server:start` to launch the development server
+```
+
+```sh
+Follow the link into the console to access the website
+```
+
+```sh
+You can use the following credentials to log in as an administrator:
+email: admin@admin.se
+password: Cleur@2023
+```
+
+```sh
+You can use the following credentials to log in as a user:
+email: user@user.se
+password: Cleur@2023
 ```
 
 ## Author

@@ -25,4 +25,11 @@ section#home {
 		font-weight: 300;
 		margin-bottom: 1rem;
 	}
+	.dashboard {
+		max-width: 90%;
+		display: flex;
+		gap: 2rem;
+		align-items: center;
+		justify-content: center;
+	}
 }

@@ -4,18 +4,21 @@
 {% endblock %}
 
 {% block body %}
-	<section
-		id="home">
+	<section id="home">
+		{# <turbo-frame id="turbo-login">
+					<a id="turbo-login-link" href="{{ path('app_login') }}"></a>
+				</turbo-frame> #}
 		{# If connected and if only USER #}
-		{% if app.user and app.user.roles[0] == 'ROLE_USER' %}
-			<h1>Welcome
-				{{ app.user.name }}</h1>
-			<div class="dashboard">
-				<div class="dashboard__item">
-					<a href="{{ path('app_forum') }}" class="btn btn-primary">Forum</a>
+			{% if app.user and app.user.roles[0] == 'ROLE_USER' %}<h1>
+				Welcome{{ app.user.name }}
+			</h1>
+				<div class="dashboard"> <div {{ react_component( 'card/Card', { 'title': 'Forums', 'description': 'Get access to all our forums..', 'path': '/forum', 'image': 'build/images/forum-icon.9d24e89e.png', 'imageAlt': 'An icon of chat bubbles' } ) }}>
+					Loading...
+					<i class="fas fa-cog fa-spin fa-2x"></i>
 				</div>
-				<div class="dashboard__item">
-					<a href="{{ path('app_user_edit', {id: app.user.id}) }}" class="btn btn-primary">Profile</a>
+				<div {{ react_component( 'card/Card', { 'title': 'Profile', 'description': 'Get access/modify your profil informations.', 'path': "/users/#{app.user.id}/edit", 'image' : 'build/images/profile-icon.e9f163e8.png' , 'imageAlt' : 'An icon of a neutral gender person' } ) }}>
+					Loading...
+					<i class="fas fa-cog fa-spin fa-2x"></i>
 				</div>
 			</div>
 			{# If connected and if only ADMIN #}
@@ -23,22 +26,26 @@
 			<h1>Welcome
 				{{ app.user.name }}</h1>
 			<div class="dashboard">
-				<div class="dashboard__item">
-					<a href="{{ path('app_forum') }}" class="btn btn-primary">Forum</a>
+				<div {{ react_component( 'card/Card', { 'title': 'Forums', 'description': 'Get access to all our forums..', 'path': '/forum', 'image': 'build/images/forum-icon.9d24e89e.png', 'imageAlt': 'An icon of chat bubbles' } ) }}>
+					Loading...
+					<i class="fas fa-cog fa-spin fa-2x"></i>
 				</div>
-				<div class="dashboard__item">
-					<a href="{{ path('app_admin') }}" class="btn btn-primary">Admin</a>
+				<div {{ react_component( 'card/Card', { 'title': 'Profile', 'description': 'Get access/modify your profil informations.', 'path': "/users/#{app.user.id}/edit", 'image' : 'build/images/profile-icon.e9f163e8.png' , 'imageAlt' : 'An icon of a neutral gender person' } ) }}>
+					Loading...
+					<i class="fas fa-cog fa-spin fa-2x"></i>
 				</div>
-				<div class="dashboard__item">
-					<a href="{{ path('app_user_edit', {id: app.user.id}) }}" class="btn btn-primary">Profile</a>
+				<div {{ react_component( 'card/Card', { 'title': 'Admin Dashboard', 'description': 'Manage the forums, posts and users. ', 'path': "/admin", 'image' : 'build/images/dashboard-icon.9d2a8f4f.png' , 'imageAlt' : 'An icon of a dashboard with random graphs' } ) }}>
+
+					Loading...
+					<i class="fas fa-cog fa-spin fa-2x"></i>
 				</div>
 			</div>
 			{# If not connected #}
 		{% else %}
 			<h1>Welcome to Cleura's Forum
 			</h1>
-			<h2>"Development Evaluation Test"</h2>
-			<h3>Click on connexion to signin</h3>
+			<h2>'Development Evaluation Test'</h2>
+			<h3>Click on the 'Get Started' button to signin</h3>
 			<p>For the admin profile, use the email: "admin@admin.se" and the password
 				<strong>Cleur@2023</strong>
 			</p>

@@ -1,26 +1,26 @@
 {% extends "base.html.twig" %}
 
 {% block body %}
-	<turbo-frame id="turbo-form">
-		<div class="form">
-			<form action="{{ path('app_login') }}" method="post">
-				<div id="login-form">
-					<div>
-						<label for="email">Email:</label>
-						<input type="email" id="email" placeholder="email" name="_username" value="{{ last_username }}"/>
-					</div>
-
-					<div>
-						<label for="password">Password:</label>
-						<input type="password" id="password" placeholder="password" name="_password"/>
-					</div>
-					<input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
-					<button class="btn btn-success" type="submit">Log In</button>
-					{% if is_granted('ROLE_ADMIN') %}
-						<a href="{{ path('app_user_create') }}" class="btn btn-primary">Create a user</a>
-					{% endif %}
+	{# <turbo-frame id="turbo-login"> #}
+	<div class="form">
+		<form action="{{ path('app_login') }}" method="post">
+			<div id="login-form">
+				<div>
+					<label for="email">Email:</label>
+					<input type="email" id="email" placeholder="email" name="_username" value="{{ last_username }}"/>
 				</div>
-			</form>
-		</div>
-	</turbo-frame>
+
+				<div>
+					<label for="password">Password:</label>
+					<input type="password" id="password" placeholder="password" name="_password"/>
+				</div>
+				<input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+				<button class="btn btn-success" type="submit">Log In</button>
+				{% if is_granted('ROLE_ADMIN') %}
+					<a href="{{ path('app_user_create') }}" class="btn btn-primary">Create a user</a>
+				{% endif %}
+			</div>
+		</form>
+	</div>
+	{# </turbo-frame> #}
 {% endblock %}

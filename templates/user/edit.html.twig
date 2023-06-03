@@ -10,20 +10,20 @@
 	<section id="edit-user">
 		<div class="form">
 			{{ form_start(form, {'action' : path('app_user_edit', {'id' : user.id})}) }}
+			<div id="register-form">
+				{% if app.user and  app.user.roles[0] == 'ROLE_ADMIN' %}
+					{{ form_row(form.name) }}
+					{{ form_row(form.email) }}
+					{{ form_row(form.roles) }}
+				{% else %}
+					{{ form_row(form.name) }}
+					{{ form_row(form.email) }}
+				{% endif %}
 
-			{{ form_row(form.name) }}
-			{{ form_row(form.email) }}
-			{# <pre>
-			                {{ dump(app.user) }}
-			            </pre> #}
-			{% if not is_granted('ROLE_ADMIN') %}
-				{{ form_row(form.password) }}
-			{% else %}
-				{{ form_row(form.roles) }}
-			{% endif %}
-
-			<button type="submit" class="btn btn-success pull-right">Modify</button>
-			{{ form_end(form) }}
+				<button type="submit" class="btn btn-success pull-right">Modify</button>
+				<a href={{ path('app_home')}} class="btn btn-danger">Cancel</a>
+				{{ form_end(form) }}
+			</div>
 		</div>
 	</section>
 {% endblock %}

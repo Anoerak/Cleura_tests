@@ -1,0 +1,27 @@
+section#show-forum {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	width: 100%;
+	height: calc(100vh - 160px);
+	overflow: hidden;
+	.show__forum {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		width: 90%;
+		height: 100%;
+		overflow: hidden;
+		h1 {
+			font-size: 2.5rem;
+			font-weight: 600;
+			margin-bottom: 2rem;
+		}
+		& > div {
+			width: 100%;
+			border-radius: 5px;
+		}
+	}
+}

@@ -6,9 +6,8 @@
 		flex-direction: column;
 		align-items: center;
 		justify-content: flex-start;
-		#task,
 		#login-form,
-		#user {
+		#register-form {
 			display: flex;
 			flex-direction: column;
 			justify-content: center;
@@ -22,6 +21,18 @@
 				label {
 					font-size: 1.5rem;
 					margin-bottom: 0.5rem;
+				}
+				#admin_roles {
+					display: flex;
+					flex-direction: row;
+					gap: 1rem;
+					width: 350px;
+					label {
+						margin-right: 1rem;
+					}
+					input {
+						width: 15px;
+					}
 				}
 				input {
 					width: 100%;
@@ -61,7 +72,7 @@
 			background-color: $secondary-color;
 			color: $white-text;
 			margin-top: 1rem;
-			transition: all 0.35s ease-in-out;
+			transition: all 0.25s ease-in-out;
 			&:hover {
 				cursor: pointer;
 				border: $secondary-color;
@@ -71,6 +82,20 @@
 			}
 			&:focus {
 				outline: none;
+			}
+		}
+		.btn-danger {
+			width: 12rem;
+			padding: 0.5rem;
+			font-size: 1.25rem;
+			margin-top: 1rem;
+			text-align: center;
+			transition: all 0.25s ease-in-out;
+			&:hover {
+				cursor: pointer;
+				background-color: $danger;
+				box-shadow: 0 0 1rem $light-danger;
+				scale: 1.05;
 			}
 		}
 	}

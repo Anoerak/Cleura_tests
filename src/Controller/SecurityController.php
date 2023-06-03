@@ -47,6 +47,12 @@ class SecurityController extends AbstractController
     #[Route('/admin', name: 'app_admin')]
     public function adminDashboardAction(EntityManagerInterface $emi): Response
     {
+        // Redirect to the login if not connected as ADMIN
+        if (!$this->isGranted('ROLE_ADMIN')) {
+            $this->addFlash('danger', 'You must be logged in with ADMIN privileges to access the admin dashboard!');
+            return $this->redirectToRoute('app_login');
+        }
+
         $users = $emi->getRepository(User::class)->findAll();
         $posts = $emi->getRepository(Post::class)->findAll();
 
