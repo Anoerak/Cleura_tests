@@ -7,7 +7,9 @@
 		align-items: center;
 		justify-content: flex-start;
 		#login-form,
-		#register-form {
+		#register-form,
+		#new-post,
+		#edit-post {
 			display: flex;
 			flex-direction: column;
 			justify-content: center;

@@ -27,8 +27,8 @@
 			{# if user is author or ADMIN, we display edit and delete button #}
 			{% if is_granted('ROLE_ADMIN') or post.author.id == app.user.id %}
 				<div class="show__post__buttons">
-					<a href="{{ path('app_post_edit', {'id': post.id}) }}" class="btn btn-primary">Edit</a>
-					<a href="{{ path('app_post_delete', {'id': post.id}) }}" class="btn btn-danger">Delete</a>
+					<a href="{{ path('app_post_edit', {'id': post.id}) }}" class="btn edit__button">Edit</a>
+					<a href="{{ path('app_post_delete', {'id': post.id}) }}" class="btn delete__button">Delete</a>
 				</div>
 			{% endif %}
 		</div>

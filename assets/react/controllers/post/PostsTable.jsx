@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import DataTable from 'react-data-table-component';
 
 const PostsList = (prop) => {
-	console.log(prop.posts[0].created_at.date.toString(''));
+	console.log(prop.posts.length);
 	const [error, setError] = useState(null);
 	const [datas, setDatas] = useState([]);
 	const [dataTableTitle, setDataTableTitle] = useState('Posts List');
@@ -11,7 +11,7 @@ const PostsList = (prop) => {
 	useEffect(() => {
 		setDataTableTitle('Posts List');
 		// We check if the Posts is empty
-		if (prop.posts && prop.posts.length < 2) {
+		if (prop.posts && prop.posts.length < 1) {
 			// If so, we display an error message
 			setIsError(true);
 			setError('No post here!! Please create one.');
@@ -47,10 +47,17 @@ const PostsList = (prop) => {
 						sortable: true,
 					},
 					{
+						name: 'Author',
+						selector: (row) => row.author,
+						sortable: true,
+					},
+					{
 						name: 'Read',
 						cell: (row) => (
 							<div>
-								<a href={`/post/${row.id}`}>Read</a>
+								<a className='read__button' href={`/post/${row.id}`}>
+									Read
+								</a>
 							</div>
 						),
 						sortable: false,
@@ -59,7 +66,9 @@ const PostsList = (prop) => {
 						name: 'Modify',
 						cell: (row) => (
 							<div>
-								<a href={`/post/${row.id}/edit`}>Edit</a>
+								<a className='edit__button' href={`/post/${row.id}/edit`}>
+									Edit
+								</a>
 							</div>
 						),
 						sortable: false,
@@ -68,7 +77,9 @@ const PostsList = (prop) => {
 						name: 'Delete',
 						cell: (row) => (
 							<div>
-								<a href={`/post/${row.id}/delete`}>Delete</a>
+								<a className='delete__button' href={`/post/${row.id}/delete`}>
+									Delete
+								</a>
 							</div>
 						),
 						sortable: false,
@@ -97,10 +108,17 @@ const PostsList = (prop) => {
 						sortable: true,
 					},
 					{
+						name: 'Author',
+						selector: (row) => row.author,
+						sortable: true,
+					},
+					{
 						name: 'Read',
 						cell: (row) => (
 							<div>
-								<a href={`/post/${row.id}`}>Read</a>
+								<a className='read__button' href={`/post/${row.id}`}>
+									Read
+								</a>
 							</div>
 						),
 						sortable: false,

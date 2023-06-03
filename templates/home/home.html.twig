@@ -6,11 +6,13 @@
 {% block body %}
 	<section id="home">
 		{# <turbo-frame id="turbo-login">
-					<a id="turbo-login-link" href="{{ path('app_login') }}"></a>
-				</turbo-frame> #}
+							<a id="turbo-login-link" href="{{ path('app_login') }}"></a>
+						</turbo-frame> #}
 		{# If connected and if only USER #}
-			{% if app.user and app.user.roles[0] == 'ROLE_USER' %}<h1>
-				Welcome{{ app.user.name }}
+			{% if app.user and app.user.roles[0] == 'ROLE_USER' %}
+				<h1>
+				Welcome
+			{{ app.user.name }}
 			</h1>
 				<div class="dashboard"> <div {{ react_component( 'card/Card', { 'title': 'Forums', 'description': 'Get access to all our forums..', 'path': '/forum', 'image': 'build/images/forum-icon.9d24e89e.png', 'imageAlt': 'An icon of chat bubbles' } ) }}>
 					Loading...

@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Post;
+use App\Entity\User;
 use App\Entity\Forum;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Response;
@@ -43,6 +44,11 @@ class ForumController extends AbstractController
         // We get all the posts for this specific forum
         $posts = $emi->getRepository(Post::class)
             ->findBy(['forum' => $forum]);
+
+        // We get the author of each post
+        foreach ($posts as $post) {
+            $post->setAuthor($emi->getRepository(User::class)->find($post->getAuthor()));
+        }
 
         return $this->render('forum/show.html.twig', [
             'controller_name' => 'ForumController',

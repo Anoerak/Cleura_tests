@@ -34,5 +34,10 @@ section#show-post {
 			font-weight: 400;
 			margin-bottom: 1rem;
 		}
+		.show__post__buttons {
+			display: flex;
+			flex-direction: row;
+			gap: 1rem;
+		}
 	}
 }

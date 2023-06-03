@@ -1,0 +1,27 @@
+{% extends "base.html.twig" %}
+
+{% block title %}
+	Cleura | Edit Post
+	{{ post.id }}
+{% endblock %}
+
+{% block body %}
+	<section id="post-edit">
+		<h1>Editing Post
+			{{ post.id }}
+		</h1>
+		<div class="edit__post__container">
+			<div class="form">
+				{{ form_start(form) }}
+				<div id="edit-post">
+					{{ form_widget(form) }}
+					<input type="submit" value="Edit" class="btn btn-primary"/>
+					<a href={{ path('app_post_show', {'id': post.id} )}} class="cancel__button">
+						Cancel
+					</a>
+				</div>
+				{{ form_end(form) }}
+			</div>
+		</div>
+	</section>
+{% endblock %}

@@ -19,9 +19,9 @@
 			{% for post in posts %}
 				{% set jsAdminPosts = jsAdminPosts|merge([{
 				'id': post.id,
-				'title': 'Task ' ~ post.id,
+				'title': 'Post ' ~ post.id,
 				'content': post.message,
-				'author': post.author,
+				'author': post.author.name,
 				'created_at': post.createdAt,
 				'consult': path('app_post_show', {'id': post.id}),
 				'edit': path('app_post_edit', {'id': post.id}),
@@ -32,16 +32,16 @@
 			{% for post in posts %}
 				{% set jsPosts = jsPosts|merge([{
 				'id': post.id,
-				'title': 'Task ' ~ post.id,
+				'title': 'Post ' ~ post.id,
 				'content': post.message,
-				'author': post.author,
+				'author': post.author.name,
 				'created_at': post.createdAt,
 				'consult': path('app_post_show', {'id': post.id})
 			}]) %}
 			{% endfor %}
 
 
-			{# If connected and if only ADMIN #}
+			{# If connected and if ADMIN #}
 			{% if app.user and app.user.roles[0] == 'ROLE_ADMIN' %}
 				<div {{react_component('post/PostsTable', {'posts': jsAdminPosts} )}}>
 					Loading...<i class="fa fa-cog fa-spin fa-2x"></i>
@@ -50,14 +50,12 @@
 				<div {{react_component('post/PostsTable', {'posts': jsPosts} )}}>
 					Loading...<i class="fa fa-cog fa-spin fa-2x"></i>
 				</div>
-
 			{% endif %}
-			{# {% for post in posts %}
-																												<div {{ react_component( 'card/Card', { 'title': "Title" , 'description' : "#{post.message}" , 'path' : " /post/#{post.id}" , 'image' : 'build/images/forum-icon.9d24e89e.png' , 'imageAlt' : 'An icon of chat bubbles' } ) }}>
-																												Loading...
-																												<i class=" fas fa-cog fa-spin fa-2x"></i>
-																												</div>
-																												{% endfor %} #}
+			<div class="new__post__btn__container">
+				{% if app.user %}
+					<a href="{{ path('app_post_new', {'forumId': forum.id} ) }}" class="btn btn-primary">New Post</a>
+				{% endif %}
+			</div>
 		</div>
 	</div>
 </section>{% endblock %}

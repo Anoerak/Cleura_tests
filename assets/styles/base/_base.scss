@@ -27,21 +27,54 @@ a {
 */
 .connexion__button {
 	@include button__base($connexion-button-color, $connexion-button-background-color, $connexion-button-border-color);
+	min-width: 5rem;
+	max-width: 12rem;
+	display: block;
+	text-align: center;
 }
 
 .btn-primary {
 	@include button__base($primary-button-color, $primary-button-background-color, $primary-button-border-color);
+	min-width: 5rem;
+	max-width: 12rem;
+	display: block;
+	text-align: center;
+}
+
+.read__button {
+	@include button__base($read-button-color, $read-button-background-color, $read-button-border-color);
+	min-width: 5rem;
+	max-width: 12rem;
+	display: block;
+	text-align: center;
+}
+
+.edit__button {
+	@include button__base($edit-button-color, $edit-button-background-color, $edit-button-border-color);
+	min-width: 5rem;
+	max-width: 12rem;
+	display: block;
+	text-align: center;
 }
 
 .delete__button,
 .cancel__button,
 .btn-danger {
 	@include button__base($cancel-button-color, $cancel-button-background-color, $cancel-button-border-color);
+	min-width: 5rem;
+	max-width: 12rem;
+	display: block;
+	text-align: center;
 }
 
 .nav__back__button {
 	@include button__base($connexion-button-color, $connexion-button-background-color, $connexion-button-border-color);
 	margin-bottom: 2rem;
+	max-width: 12rem;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: center;
 }
 
 /*

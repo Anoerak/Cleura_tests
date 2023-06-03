@@ -21,23 +21,6 @@ class UserController extends AbstractController
         $this->encoder = $encoder;
     }
 
-    #[Route('/users', name: 'app_users_list')]
-    public function usersListAction(EntityManagerInterface $emi): Response
-    {
-        // Redirect to the login if not connected as ADMIN
-        if (!$this->isGranted('ROLE_ADMIN')) {
-            $this->addFlash('danger', 'You must be logged in with ADMIN privileges to see the list of users!');
-            return $this->redirectToRoute('app_login');
-        }
-
-        return $this->render('user/list.html.twig', [
-            'controller_name' => 'UserController',
-            'users' => $emi->getRepository(User::class)->findAll()
-        ]);
-    }
-
-
-
     #[Route('/users/create', name: 'app_user_create')]
     public function userCreateAction(EntityManagerInterface $emi, Request $request): Response
     {
