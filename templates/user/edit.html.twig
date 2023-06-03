@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+
+{% block header_title %}
+	<h1>Cleura | Modify
+		<strong>{{ user.username }}</strong>
+	</h1>
+{% endblock %}
+
+{% block body %}
+	<section id="edit-user">
+		<div class="form">
+			{{ form_start(form, {'action' : path('app_user_edit', {'id' : user.id})}) }}
+
+			{{ form_row(form.name) }}
+			{{ form_row(form.email) }}
+			{# <pre>
+			                {{ dump(app.user) }}
+			            </pre> #}
+			{% if not is_granted('ROLE_ADMIN') %}
+				{{ form_row(form.password) }}
+			{% else %}
+				{{ form_row(form.roles) }}
+			{% endif %}
+
+			<button type="submit" class="btn btn-success pull-right">Modify</button>
+			{{ form_end(form) }}
+		</div>
+	</section>
+{% endblock %}

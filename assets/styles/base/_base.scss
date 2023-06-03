@@ -1,0 +1,52 @@
+*,
+*::before,
+*::after {
+	box-sizing: border-box;
+	padding: 0;
+	margin: 0;
+	scroll-behavior: smooth;
+}
+
+body {
+	font-family: 'Roboto', sans-serif;
+	font-size: 1rem;
+	line-height: 1.5;
+	color: $black-text;
+	background-color: $background-color;
+}
+
+a {
+	text-decoration: none;
+	color: inherit;
+}
+
+/*
+	|--------------------------------
+	| 1. Links & Buttons
+	|--------------------------------
+*/
+.connexion__button {
+	@include button__base($connexion-button-color, $connexion-button-background-color, $connexion-button-border-color);
+}
+
+.delete__button,
+.cancel__button {
+	@include button__base($cancel-button-color, $cancel-button-background-color, $cancel-button-border-color);
+}
+
+/*
+	|--------------------------------
+	| 2. Alerts Banner
+	|--------------------------------
+*/
+.success-warning {
+	@include alert__banner($alertSuccess-color, $alertSuccess-background-color, $alertSuccess-border-color);
+}
+
+.alert-warning {
+	@include alert__banner($alertWarning-color, $alertWarning-background-color, $alertWarning-border-color);
+}
+
+.error-warning {
+	@include alert__banner($alertDanger-color, $alertDanger-background-color, $alertDanger-border-color);
+}

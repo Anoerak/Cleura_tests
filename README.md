@@ -1,6 +1,6 @@
-# Cleura_tests
+# Cleura Development Evaluation Test
 
-<h1 align="center">Welcome to Cleura's forum 👋</h1>
+<h1 align="center">Welcome to Cleura's Development Evaluation Test 👋</h1>
 <p>
   <a href="#" target="_blank">
     <img alt="License: MIT" src="https://img.shields.io/badge/License-MIT-yellow.svg" />
@@ -31,6 +31,10 @@ Run the command `symfony console doctrine:schema:update --force` to create the t
 
 ```sh
 Run the command `symfony console doctrine:fixtures:load` to load the fixtures
+```
+
+```sh
+Run the command `symfony server:start` to launch the development server
 ```
 
 ## Author

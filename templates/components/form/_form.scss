@@ -1,0 +1,77 @@
+.form {
+	height: 100%;
+	form {
+		height: calc(100% - 160px);
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: flex-start;
+		#task,
+		#login-form,
+		#user {
+			display: flex;
+			flex-direction: column;
+			justify-content: center;
+			align-items: center;
+			width: 100%;
+			margin: 1rem 0;
+			div {
+				display: flex;
+				flex-direction: column;
+				margin: 1rem 0;
+				label {
+					font-size: 1.5rem;
+					margin-bottom: 0.5rem;
+				}
+				input {
+					width: 100%;
+					padding: 0.5rem;
+					font-size: 1.5rem;
+					border: 1px solid $tertiary-color-dark;
+					border-radius: 0.5rem;
+					&:focus {
+						outline: none;
+						border: 1px solid $primary-color;
+					}
+				}
+				textarea {
+					width: 100%;
+					padding: 0.5rem;
+					font-size: 1.5rem;
+					border: 1px solid $tertiary-color-dark;
+					border-radius: 0.5rem;
+					&:focus {
+						outline: none;
+						border: 1px solid $primary-color;
+					}
+				}
+				.error {
+					color: $danger;
+					font-size: 1.2rem;
+					margin-top: 0.5rem;
+				}
+			}
+		}
+		button {
+			width: 12rem;
+			padding: 0.5rem;
+			font-size: 1.25rem;
+			border: 1px solid $tertiary-color-dark;
+			border-radius: 0.5rem;
+			background-color: $secondary-color;
+			color: $white-text;
+			margin-top: 1rem;
+			transition: all 0.35s ease-in-out;
+			&:hover {
+				cursor: pointer;
+				border: $secondary-color;
+				background-color: $secondary-color-light;
+				box-shadow: 0 0 1rem $secondary-color-dark;
+				scale: 1.05;
+			}
+			&:focus {
+				outline: none;
+			}
+		}
+	}
+}

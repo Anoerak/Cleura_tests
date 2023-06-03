@@ -1,0 +1,25 @@
+{# {% block javascripts %}
+	{{ encore_entry_script_tags('header') }}
+{% endblock %} #}
+
+<header>
+	<div class="header">
+		<div class="header__logo">
+			<a href={{path('app_home')}}>
+				<img src="{{ asset('build/images/logo/Cleura-Text-White.9e35f1dc.png') }}" alt="Logo de Cleura"/>
+				<img src="{{ asset('build/images/logo/Cleura-Symbol-Open-Source-White.48c67aff.png') }}" alt="Logo de Cleura"/>
+				<img src="{{ asset('build/images/logo/Cleura-Symbol-Open-Source-Dot-White.d1d3c250.png') }}" alt="Logo de Cleura"/>
+			</a>
+		</div>
+		<div class="header__menu">
+			<div class="navbar__connexion">
+				{% if app.user %}
+					<a href="{{ path('app_logout') }}" class="navbar__link">Log Out</a>
+				{% else %}
+					<a href="{{ path('app_login') }}" class="navbar__link">Connexion</a>
+				{% endif %}
+			</div>
+			<img src="{{ asset('build/images/Cleura-Globe-Language.b0470c45.png')}}" alt="planet earth globe logo">
+		</div>
+	</div>
+</header>

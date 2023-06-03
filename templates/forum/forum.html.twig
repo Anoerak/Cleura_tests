@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Cleura | Forums List
+{% endblock %}
+
+{% block body %}
+	<section id="forum">
+		<h1>Forums List</h1>
+		<div class="dashboard">
+			{% for forum in forums %}
+				<div class="dashboard__item">
+					<a href="{{ path('app_forum_show', {id: forum.id}) }}" class="btn btn-primary">{{ forum.name }}</a>
+				</div>
+			{% endfor %}
+		</div>
+	</section>
+{% endblock %}

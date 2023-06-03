@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>
+			{% block title %}Welcome!
+			{% endblock %}
+		</title>
+		<link rel="icon" href={{ asset('build/images/favicon/cropped-Cleura-Favicon-Black-1080-32x32.1d6c4e98.png') }}>
+		{% block stylesheets %}
+			{{ encore_entry_link_tags('app') }}
+		{% endblock %}
+
+		{% block javascripts %}
+			{{ encore_entry_script_tags('app') }}
+		{% endblock %}
+	</head>
+	<body>
+		{# We place the flash messages here #}
+		{% for message in app.flashes('danger') %}
+			<div class="alert error-warning" role="alert">
+				<p>
+					<strong>Oupsy!</strong>
+				</p>
+				{{ message }}
+			</div>
+		{% endfor %}
+		{% for message in app.flashes('success') %}
+			<div class="alert success-warning" role="alert">
+				<p>
+					<strong>Nice!</strong>
+				</p>
+				{{ message }}
+			</div>
+		{% endfor %}
+
+		{# We place the Header component here #}
+		{% block header %}
+			{% include 'components/header/header.html.twig' %}
+		{% endblock header %}
+
+		{# We place the block body here #}
+		{% block body %}{% endblock %}
+
+		{# We place the footer component here #}
+		{% block footer %}
+			{% include 'components/footer/footer.html.twig' %}
+		{% endblock footer%}
+
+	</body>
+</html>

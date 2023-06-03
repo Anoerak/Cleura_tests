@@ -1,0 +1,50 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Cleura | Home
+{% endblock %}
+
+{% block body %}
+	<section
+		id="home">
+		{# If connected and if only USER #}
+		{% if app.user and app.user.roles[0] == 'ROLE_USER' %}
+			<h1>Welcome
+				{{ app.user.name }}</h1>
+			<div class="dashboard">
+				<div class="dashboard__item">
+					<a href="{{ path('app_forum') }}" class="btn btn-primary">Forum</a>
+				</div>
+				<div class="dashboard__item">
+					<a href="{{ path('app_user_edit', {id: app.user.id}) }}" class="btn btn-primary">Profile</a>
+				</div>
+			</div>
+			{# If connected and if only ADMIN #}
+		{% elseif app.user and app.user.roles[0] == 'ROLE_ADMIN' %}
+			<h1>Welcome
+				{{ app.user.name }}</h1>
+			<div class="dashboard">
+				<div class="dashboard__item">
+					<a href="{{ path('app_forum') }}" class="btn btn-primary">Forum</a>
+				</div>
+				<div class="dashboard__item">
+					<a href="{{ path('app_admin') }}" class="btn btn-primary">Admin</a>
+				</div>
+				<div class="dashboard__item">
+					<a href="{{ path('app_user_edit', {id: app.user.id}) }}" class="btn btn-primary">Profile</a>
+				</div>
+			</div>
+			{# If not connected #}
+		{% else %}
+			<h1>Welcome to Cleura's Forum
+			</h1>
+			<h2>"Development Evaluation Test"</h2>
+			<h3>Click on connexion to signin</h3>
+			<p>For the admin profile, use the email: "admin@admin.se" and the password
+				<strong>Cleur@2023</strong>
+			</p>
+			<p>For the user profile, use the email: "user@user.se" and the password
+				<strong>Cleur@2023</strong>
+			</p>
+		{% endif %}
+	</section>
+{% endblock %}
