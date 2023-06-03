@@ -55,11 +55,13 @@ class SecurityController extends AbstractController
 
         $users = $emi->getRepository(User::class)->findAll();
         $posts = $emi->getRepository(Post::class)->findAll();
+        $forums = $emi->getRepository(Forum::class)->findAll();
 
         return $this->render('security/admin.html.twig', [
             'controller_name' => 'SecurityController',
             'users' => $users,
-            'posts' => $posts
+            'posts' => $posts,
+            'forums' => $forums,
         ]);
     }
 }
