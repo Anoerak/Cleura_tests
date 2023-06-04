@@ -48,7 +48,7 @@ Run the command `symfony console doctrine:fixtures:load` to load the fixtures
 ```
 
 ```sh
-Run the command `npm run watch` to build the assets
+Run the command `npm run dev` to build the assets
 ```
 
 ## Usage
