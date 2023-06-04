@@ -1,5 +1,10 @@
 # Cleura Development Evaluation Test
 
+![GitHub repo size](https://img.shields.io/github/repo-size/Anoerak/Proust_Sebastien_P14_01112022?style=plastic)
+![GitHub language count](https://img.shields.io/github/languages/count/Anoerak/Proust_Sebastien_P14_01112022?style=plastic)
+![GitHub top language](https://img.shields.io/github/languages/top/Anoerak/Proust_Sebastien_P14_01112022?style=plastic)
+![GitHub last commit](https://img.shields.io/github/last-commit/Anoerak/Proust_Sebastien_P14_01112022?color=red&style=plastic)
+
 <h1 align="center">Welcome to Cleura's Development Evaluation Test 👋</h1>
 <p>
   <a href="#" target="_blank">
@@ -8,6 +13,11 @@
 </p>
 
 > A technical test for the CLEURA company..
+
+![PHP](https://img.shields.io/badge/php-8.1-informational?style=flat-square&logo=appveyor)
+![Symfony](https://img.shields.io/badge/symfony-6.3-blue?style=flat-square&logo=appveyor)
+![React](https://img.shields.io/badge/reactjs-18.0-blueviolet?style=flat-square&logo=appveyor)
+![Webpack-Encore](https://img.shields.io/badge/Webpack_Encore-4.0-brightgreen?style=flat-square&logo=appveyor)
 
 ## Install
 
