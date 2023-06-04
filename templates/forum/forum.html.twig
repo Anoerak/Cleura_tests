@@ -15,7 +15,7 @@
 			<h1>Forums List</h1>
 			<div class="dashboard">
 				{% for forum in forums %}
-					<div {{ react_component( 'card/Card', { 'title': "#{forum.name}" , 'description' : "Your forum about #{forum.name} questions" , 'path' : " /forum/#{forum.id}" , 'image' : 'build/images/forum-icon.9d24e89e.png' , 'imageAlt' : 'An icon of chat bubbles' } ) }}>
+					<div {{ react_component( 'card/Card', { 'title': "#{forum.name}" , 'description' : "Your forum about #{forum.name} questions" , 'path' : " /forum/#{forum.id}" , 'image' : 'build/images/forum-icon.png' , 'imageAlt' : 'An icon of chat bubbles' } ) }}>
 						Loading...
 						<i class=" fas fa-cog fa-spin fa-2x"></i>
 					</div>
