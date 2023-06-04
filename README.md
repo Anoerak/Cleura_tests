@@ -1,9 +1,9 @@
 # Cleura Development Evaluation Test
 
-![GitHub repo size](https://img.shields.io/github/repo-size/Anoerak/Proust_Sebastien_P14_01112022?style=plastic)
-![GitHub language count](https://img.shields.io/github/languages/count/Anoerak/Proust_Sebastien_P14_01112022?style=plastic)
-![GitHub top language](https://img.shields.io/github/languages/top/Anoerak/Proust_Sebastien_P14_01112022?style=plastic)
-![GitHub last commit](https://img.shields.io/github/last-commit/Anoerak/Proust_Sebastien_P14_01112022?color=red&style=plastic)
+![GitHub repo size](https://img.shields.io/github/repo-size/Anoerak/Cleura_tests?style=plastic)
+![GitHub language count](https://img.shields.io/github/languages/count/Anoerak/Cleura_tests?style=plastic)
+![GitHub top language](https://img.shields.io/github/languages/top/Anoerak/Cleura_tests?style=plastic)
+![GitHub last commit](https://img.shields.io/github/last-commit/Anoerak/Cleura_tests?color=red&style=plastic)
 
 <h1 align="center">Welcome to Cleura's Development Evaluation Test 👋</h1>
 <p>
