@@ -32,8 +32,8 @@
 	"dependencies": {
 		"@emotion/react": "^11.10.6",
 		"@emotion/styled": "^11.10.6",
-		"styled-components": "^5.3.9",
 		"@mui/material": "^5.13.3",
-		"react-data-table-component": "^7.5.3"
+		"react-data-table-component": "^7.5.3",
+		"styled-components": "^5.3.9"
 	}
 }

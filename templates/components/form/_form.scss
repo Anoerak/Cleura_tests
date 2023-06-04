@@ -26,6 +26,14 @@
 					font-size: 1.5rem;
 					margin-bottom: 0.5rem;
 				}
+				ul li,
+				ul li::marker {
+					color: $danger;
+					list-style-type: '⚠️';
+				}
+				ul:first-of-type + input {
+					border: solid 1px $danger;
+				}
 				#admin_roles {
 					display: flex;
 					flex-direction: row;

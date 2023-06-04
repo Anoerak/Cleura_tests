@@ -26,10 +26,10 @@ class UserController extends AbstractController
     public function userCreateAction(EntityManagerInterface $emi, Request $request): Response
     {
         // Redirect to the login if not connected as ADMIN
-        if (!$this->isGranted('ROLE_ADMIN')) {
-            $this->addFlash('danger', 'You must be logged in with ADMIN privileges to see the list of users!');
-            return $this->redirectToRoute('app_login');
-        }
+        // if (!$this->isGranted('ROLE_ADMIN')) {
+        //     $this->addFlash('danger', 'You must be logged in with ADMIN privileges to see the list of users!');
+        //     return $this->redirectToRoute('app_login');
+        // }
 
         $user = new User();
         $form = $this->createForm(UserType::class, $user);

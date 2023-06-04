@@ -3,9 +3,12 @@
 namespace App\Entity;
 
 use App\Repository\ForumRepository;
-use Doctrine\Common\Collections\ArrayCollection;
+
 use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
+
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: ForumRepository::class)]
 class Forum
@@ -16,6 +19,7 @@ class Forum
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message: 'Please enter a name')]
     private ?string $name = null;
 
     #[ORM\OneToMany(mappedBy: 'forum', targetEntity: Post::class)]
