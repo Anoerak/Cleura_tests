@@ -20,7 +20,7 @@ Update the .env file with your database credentials
 ```
 
 ```sh
-Install dependencies with composer install and npm install
+Install dependencies with composer install then npm install
 ```
 
 ```sh
@@ -30,6 +30,8 @@ Run the command `symfony console doctrine:database:create` to create the databas
 ```sh
 Run the command `symfony console doctrine:schema:update --force` to create the tables
 ```
+
+> (If you encounter any issues with the previous command, you can try to run the following command instead: `symfony console doctrine:migrations:migrate`)
 
 ```sh
 Run the command `symfony console doctrine:fixtures:load` to load the fixtures
