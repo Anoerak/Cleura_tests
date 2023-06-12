@@ -8,19 +8,21 @@ use App\Form\AdminType;
 use App\Form\EditUserType;
 use App\Repository\UserRepository;
 use App\Service\AccessControllerService;
-use App\Service\AccountConfirmationLinkService;
 use Doctrine\ORM\EntityManagerInterface;
-
 use Symfony\Component\HttpFoundation\Request;
+
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\HttpFoundation\Response;
+use App\Service\AccountConfirmationLinkService;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+use App\Message\SendConfirmationAccountLinkMessage;
 
+use Symfony\Component\Messenger\MessageBusInterface;
 use SymfonyCasts\Bundle\VerifyEmail\VerifyEmailHelperInterface;
-use SymfonyCasts\Bundle\VerifyEmail\Exception\VerifyEmailExceptionInterface;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+use SymfonyCasts\Bundle\VerifyEmail\Exception\VerifyEmailExceptionInterface;
 
 class UserController extends AbstractController
 {
@@ -64,7 +66,7 @@ class UserController extends AbstractController
 
 
     #[Route('/user/create', name: 'app_user_create')]
-    public function userCreateAction(Request $request, AccountConfirmationLinkService $accountConfirmationService): Response
+    public function userCreateAction(Request $request, MessageBusInterface $messageBus): Response
     {
         // Redirect to the login if not connected as ADMIN
         if ($this->accessControllerService->IsAdmin('You must be logged in with ADMIN privileges to create a new user!')) {
@@ -102,7 +104,8 @@ class UserController extends AbstractController
             |--------------------------------------------
             */
 
-            $accountConfirmationService->sendConfirmationLink($user);
+            // $accountConfirmationService->sendConfirmationLink($user);
+            $messageBus->dispatch(new SendConfirmationAccountLinkMessage($user->getId()));
 
 
             /*

@@ -17,6 +17,7 @@ framework:
 
         routing:
             Symfony\Component\Mailer\Messenger\SendEmailMessage: async
+            App\Message\SendConfirmationAccountLinkMessage: async
 
             # Route your messages to the transports
             # 'App\Message\YourMessage': async
