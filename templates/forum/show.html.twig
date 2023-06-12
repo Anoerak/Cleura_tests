@@ -41,11 +41,11 @@
 			{% endfor %}
 
 			{% if app.user and app.user.roles[0] == 'ROLE_ADMIN' %}
-				<div {{react_component('post/PostsTable', {'posts': jsAdminPosts} )}}>
+				<div {{react_component('table/Table', {'posts': jsAdminPosts} )}}>
 					Loading...<i class="fa fa-cog fa-spin fa-2x"></i>
 				</div>
 			{% elseif app.user and app.user.roles[0] == 'ROLE_USER' %}
-				<div {{react_component('post/PostsTable', {'posts': jsPosts} )}}>
+				<div {{react_component('table/Table', {'posts': jsPosts} )}}>
 					Loading...<i class="fa fa-cog fa-spin fa-2x"></i>
 				</div>
 			{% endif %}

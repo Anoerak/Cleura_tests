@@ -38,7 +38,7 @@
 				{% set jsPosts = jsPosts|merge([{
 				'id': post.id,
 				'title': 'Title ' ~ post.id,
-				'content': post.message,
+				'message': post.message,
 				'author': post.author.name,
 				'forum': post.forum.name,
 				'created_at': post.createdAt,
@@ -53,13 +53,13 @@
 				<a id="posts-link">Post</a>
 			</h2>
 
-			<div style="display:block" id="users" {{react_component('post/PostsTable', {'users': jsUsers} )}}>
+			<div style="display:block" id="users" {{react_component('table/Table', {'users': jsUsers} )}}>
 				Loading...<i class="fa fa-cog fa-spin fa-2x"></i>
 			</div>
-			<div style="display:none" id="forums" {{react_component('post/PostsTable', {'forums': jsForums} )}}>
+			<div style="display:none" id="forums" {{react_component('table/Table', {'forums': jsForums} )}}>
 				Loading...<i class="fa fa-cog fa-spin fa-2x"></i>
 			</div>
-			<div style="display:none" id="posts" {{react_component('post/PostsTable', {'posts': jsPosts} )}}>
+			<div style="display:none" id="posts" {{react_component('table/Table', {'posts': jsPosts} )}}>
 				Loading...<i class="fa fa-cog fa-spin fa-2x"></i>
 			</div>
 
