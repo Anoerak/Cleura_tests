@@ -73,6 +73,16 @@ email: user@user.se
 password: Cleur@2023
 ```
 
+## Use the Mailer
+
+```sh
+Set up your mailer credentials in the .env file
+```
+
+```sh
+Run the command `symfony console messenger:consume async -vv` into a separated terminal to launch the mailer
+```
+
 ## Author
 
 👤 **Anørak**

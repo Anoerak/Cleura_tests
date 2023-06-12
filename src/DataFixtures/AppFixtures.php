@@ -26,7 +26,8 @@ class AppFixtures extends Fixture
         $admin->setEmail('admin@admin.se')
             ->setRoles(['ROLE_ADMIN'])
             ->setPassword($this->encoder->hashPassword($admin, 'Cleur@2023'))
-            ->setName('admin');
+            ->setName('admin')
+            ->setIsVerified(true);
         $manager->persist($admin);
 
         $user = new User();

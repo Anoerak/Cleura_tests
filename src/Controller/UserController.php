@@ -6,13 +6,25 @@ use App\Entity\User;
 use App\Form\UserType;
 use App\Form\AdminType;
 use App\Form\EditUserType;
+use App\Repository\UserRepository;
 use App\Service\AccessControllerService;
+
 use Doctrine\ORM\EntityManagerInterface;
+
+use Symfony\Bridge\Twig\Mime\TemplatedEmail;
+
+use Symfony\Component\Mime\Address;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+
+use SymfonyCasts\Bundle\VerifyEmail\VerifyEmailHelper;
+use SymfonyCasts\Bundle\VerifyEmail\VerifyEmailHelperInterface;
+use SymfonyCasts\Bundle\VerifyEmail\Exception\VerifyEmailExceptionInterface;
+
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class UserController extends AbstractController
 {
@@ -21,8 +33,40 @@ class UserController extends AbstractController
     {
     }
 
+    #[Route('/verify', name: 'app_verify_email')]
+    public function verifyUserEmail(Request $request, EntityManagerInterface $entityManager, VerifyEmailHelperInterface $verifyEmailHelper, UserRepository $userRepository): Response
+    {
+        $user = $userRepository->findOneBy(['id' => $request->get('id')]);
+
+        dump($request->get('id'));
+
+        if (null === $user) {
+            throw $this->createNotFoundException('User not found.');
+        }
+
+        try {
+            $verifyEmailHelper->validateEmailConfirmation(
+                $request->getUri(),
+                $user->getId(),
+                $user->getEmail()
+            );
+        } catch (VerifyEmailExceptionInterface $e) {
+            $this->addFlash('danger', $e->getReason());
+
+            return $this->redirectToRoute('app_login');
+        }
+
+
+        $user->setIsVerified(true);
+        $entityManager->persist($user);
+        $entityManager->flush();
+
+        $this->addFlash('success', 'Your email address has been verified!! Lucky you!');
+        return $this->redirectToRoute('app_login');
+    }
+
     #[Route('/user/create', name: 'app_user_create')]
-    public function userCreateAction(Request $request): Response
+    public function userCreateAction(Request $request, VerifyEmailHelperInterface $verifyEmailHelper, MailerInterface $mailer): Response
     {
         // Redirect to the login if not connected as ADMIN
         if ($this->accessControllerService->IsAdmin('You must be logged in with ADMIN privileges to create a new user!')) {
@@ -35,15 +79,69 @@ class UserController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $user = $form->getdata();
+
+            /*
+            |--------------------------------------------
+            | We check if there already is a user with this username
+            |--------------------------------------------
+            */
+            $userExists = $this->entityManagerInterface->getRepository(User::class)->findOneBy(['name' => $user->getName()]);
+            if ($userExists) {
+                $this->addFlash('danger', 'This username is already taken');
+                return $this->redirectToRoute('app_admin');
+            }
+
             $password = $this->encoder->hashPassword($user, $user->getPassword());
             $user->setPassword($password);
 
             $this->entityManagerInterface->persist($user);
             $this->entityManagerInterface->flush();
 
-            $this->addFlash('success', 'New user just added! Wait... Who are you?');
+            /*
+            |--------------------------------------------
+            | We generate the confirmation URL.
+            |--------------------------------------------
+            */
+            $signatureComponents = $verifyEmailHelper->generateSignature(
+                'app_verify_email',
+                $user->getId(),
+                $user->getEmail(),
+                ['id' => $user->getId()]
+            );
 
-            return $this->redirectToRoute('app_admin');
+            /*
+            |--------------------------------------------
+            | We send an email with a confirmation link.
+            |--------------------------------------------
+            */
+
+            $email = (new TemplatedEmail())
+                ->from(new Address('largowick@gmail.com', 'Cleura Daemon'))
+                ->to($user->getEmail())
+                ->subject('Please Confirm your Email')
+                ->htmlTemplate('emails/confirmation_email.html.twig')
+                ->context([
+                    'signedUrl' => $signatureComponents->getSignedUrl(),
+                    'expiresAtMessageKey' => $signatureComponents->getExpirationMessageKey(),
+                    'expiresAtMessageData' => $signatureComponents->getExpirationMessageData(),
+                ]);
+
+            $mailer->send($email);
+
+
+            /*
+            |--------------------------------------------
+            | We check if the user has been created.
+            |--------------------------------------------
+            */
+            if ($user->getId()) {
+                $this->addFlash('success', 'New user just added! Wait... Who are you?');
+                return $this->redirectToRoute('app_admin');
+            } else {
+                $this->addFlash('danger', 'Something went wrong...again.. Please, try one more time.');
+                return $this->redirectToRoute('app_admin');
+            }
         }
 
         return $this->render('user/create.html.twig', [
