@@ -8,19 +8,15 @@ use App\Form\AdminType;
 use App\Form\EditUserType;
 use App\Repository\UserRepository;
 use App\Service\AccessControllerService;
-
+use App\Service\AccountConfirmationLinkService;
 use Doctrine\ORM\EntityManagerInterface;
 
-use Symfony\Bridge\Twig\Mime\TemplatedEmail;
-
-use Symfony\Component\Mime\Address;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
-use SymfonyCasts\Bundle\VerifyEmail\VerifyEmailHelper;
 use SymfonyCasts\Bundle\VerifyEmail\VerifyEmailHelperInterface;
 use SymfonyCasts\Bundle\VerifyEmail\Exception\VerifyEmailExceptionInterface;
 
@@ -65,8 +61,10 @@ class UserController extends AbstractController
         return $this->redirectToRoute('app_login');
     }
 
+
+
     #[Route('/user/create', name: 'app_user_create')]
-    public function userCreateAction(Request $request, VerifyEmailHelperInterface $verifyEmailHelper, MailerInterface $mailer): Response
+    public function userCreateAction(Request $request, AccountConfirmationLinkService $accountConfirmationService): Response
     {
         // Redirect to the login if not connected as ADMIN
         if ($this->accessControllerService->IsAdmin('You must be logged in with ADMIN privileges to create a new user!')) {
@@ -100,34 +98,11 @@ class UserController extends AbstractController
 
             /*
             |--------------------------------------------
-            | We generate the confirmation URL.
-            |--------------------------------------------
-            */
-            $signatureComponents = $verifyEmailHelper->generateSignature(
-                'app_verify_email',
-                $user->getId(),
-                $user->getEmail(),
-                ['id' => $user->getId()]
-            );
-
-            /*
-            |--------------------------------------------
-            | We send an email with a confirmation link.
+            | We use the AccountConfirmationLinkService to send an email to the user to confirm his account
             |--------------------------------------------
             */
 
-            $email = (new TemplatedEmail())
-                ->from(new Address('largowick@gmail.com', 'Cleura Daemon'))
-                ->to($user->getEmail())
-                ->subject('Please Confirm your Email')
-                ->htmlTemplate('emails/confirmation_email.html.twig')
-                ->context([
-                    'signedUrl' => $signatureComponents->getSignedUrl(),
-                    'expiresAtMessageKey' => $signatureComponents->getExpirationMessageKey(),
-                    'expiresAtMessageData' => $signatureComponents->getExpirationMessageData(),
-                ]);
-
-            $mailer->send($email);
+            $accountConfirmationService->sendConfirmationLink($user);
 
 
             /*
