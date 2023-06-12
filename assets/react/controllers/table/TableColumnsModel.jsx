@@ -16,7 +16,7 @@ const columnsSelector = [
 	},
 	{
 		name: 'Posts for Users',
-		names: ['ID', 'Title', 'Message', 'Created_At', 'Author', 'Forum', 'Read', 'Edit', 'Delete'],
+		names: ['ID', 'Title', 'Message', 'Created_At', 'Author', 'Read', 'Edit', 'Delete'],
 	},
 ];
 
@@ -35,7 +35,20 @@ const mappingColumns = (columnName, pathFilter) => {
 					cell: (row) => (
 						<div>
 							<a
-								className={`${name.toLowerCase()}__button`}
+								className={
+									`${name.toLowerCase()}__button` +
+									(() => {
+										if (
+											name === 'Read' ||
+											row.author === row.user_name ||
+											row.user_name === 'admin'
+										) {
+											return '';
+										} else {
+											return ' disabled';
+										}
+									})()
+								}
 								href={(() => {
 									switch (name) {
 										case 'Read':

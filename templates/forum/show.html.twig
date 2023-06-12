@@ -14,18 +14,19 @@
 			</div>
 			<h1>Forum -
 				{{forum.name}}</h1>
-
 			{% set jsAdminPosts = [] %}
 			{% for post in posts %}
 				{% set jsAdminPosts = jsAdminPosts|merge([{
 				'id': post.id,
 				'title': 'Post ' ~ post.id,
-				'content': post.message,
+				'message': post.message,
 				'author': post.author.name,
 				'created_at': post.createdAt,
 				'consult': path('app_post_show', {'id': post.id}),
 				'edit': path('app_post_edit', {'id': post.id}),
-				'delete': path('app_post_delete', {'id': post.id})
+				'delete': path('app_post_delete', {'id': post.id}),
+				'privilege': 'admin',
+				'user_name': app.user.name
 			}]) %}
 			{% endfor %}
 			{% set jsPosts = [] %}
@@ -33,10 +34,12 @@
 				{% set jsPosts = jsPosts|merge([{
 				'id': post.id,
 				'title': 'Post ' ~ post.id,
-				'content': post.message,
+				'message': post.message,
 				'author': post.author.name,
 				'created_at': post.createdAt,
-				'consult': path('app_post_show', {'id': post.id})
+				'consult': path('app_post_show', {'id': post.id}),
+				'privilege': 'user',
+				'user_name': app.user.name
 			}]) %}
 			{% endfor %}
 

@@ -21,7 +21,8 @@
 				'email': user.email,
 				'roles': user.roles|join(', '),
 				'edit': path('app_user_edit', {'id': user.id}),
-				'delete': path('app_user_delete', {'id': user.id})
+				'delete': path('app_user_delete', {'id': user.id}),
+				'privilege': 'admin'
 			}]) %}
 			{% endfor %}
 			{% set jsForums = [] %}
@@ -30,7 +31,8 @@
 				'id': forum.id,
 				'name': forum.name,
 				'edit': path('app_forum_edit', {'id': forum.id}),
-				'delete': path('app_forum_delete', {'id': forum.id})
+				'delete': path('app_forum_delete', {'id': forum.id}),
+				'privilege': 'admin'
 			}]) %}
 			{% endfor %}
 			{% set jsPosts = [] %}
@@ -43,7 +45,8 @@
 				'forum': post.forum.name,
 				'created_at': post.createdAt,
 				'edit': path('app_post_edit', {'id': post.id}),
-				'delete': path('app_post_delete', {'id': post.id})
+				'delete': path('app_post_delete', {'id': post.id}),
+				'privilege': 'admin'
 			}]) %}
 			{% endfor %}
 

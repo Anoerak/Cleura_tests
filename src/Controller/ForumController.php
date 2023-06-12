@@ -6,6 +6,7 @@ use App\Entity\Post;
 use App\Entity\User;
 use App\Entity\Forum;
 use App\Form\ForumType;
+use App\Service\AccessControllerService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -14,16 +15,23 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class ForumController extends AbstractController
 {
-    #[Route('/forum', name: 'app_forum')]
-    public function index(EntityManagerInterface $emi): Response
-    {
-        // Redirect to the login if not connected as ADMIN or USER
-        if (!$this->isGranted('ROLE_ADMIN') && !$this->isGranted('ROLE_USER')) {
-            $this->addFlash('danger', 'You must be logged in to see the list of forums!');
-            return $this->redirectToRoute('app_login');
-        }
 
-        $forums = $emi->getRepository(Forum::class)
+    public function __construct(
+        private EntityManagerInterface $entityManagerInterface,
+        private AccessControllerService $accessControllerService,
+    ) {
+    }
+
+    #[Route('/forum', name: 'app_forum')]
+    public function index(): Response
+    {
+        // Redirect to the login if not connected
+        if ($this->accessControllerService->IsConnected('You must be logged in to see the list of forums!')) {
+            return $this->redirectToRoute('app_login');
+        };
+
+
+        $forums = $this->entityManagerInterface->getRepository(Forum::class)
             ->findAll();
 
         return $this->render('forum/forum.html.twig', [
@@ -35,21 +43,20 @@ class ForumController extends AbstractController
     #[Route('/forum/{id}', name: 'app_forum_show')]
     public function show(EntityManagerInterface $emi, int $id): Response
     {
-        // Redirect to the login if not connected as ADMIN or USER
-        if (!$this->isGranted('ROLE_ADMIN') && !$this->isGranted('ROLE_USER')) {
-            $this->addFlash('danger', 'You must be logged in to see the list of forums!');
+        // Redirect to the login if not connected
+        if ($this->accessControllerService->IsConnected('You must be logged in to enter in this forums!')) {
             return $this->redirectToRoute('app_login');
-        }
+        };
 
-        $forum = $emi->getRepository(Forum::class)->find($id);
+        $forum = $this->entityManagerInterface->getRepository(Forum::class)->find($id);
 
         // We get all the posts for this specific forum
-        $posts = $emi->getRepository(Post::class)
+        $posts = $this->entityManagerInterface->getRepository(Post::class)
             ->findBy(['forum' => $forum]);
 
         // We get the author of each post
         foreach ($posts as $post) {
-            $post->setAuthor($emi->getRepository(User::class)->find($post->getAuthor()));
+            $post->setAuthor($this->entityManagerInterface->getRepository(User::class)->find($post->getAuthor()));
         }
 
         return $this->render('forum/show.html.twig', [
@@ -60,13 +67,12 @@ class ForumController extends AbstractController
     }
 
     #[Route('/create/forum', name: 'app_forum_create')]
-    public function create(EntityManagerInterface $emi, Request $request): Response
+    public function create(Request $request): Response
     {
-        // Redirect to the login if not connected as ADMIN
-        if (!$this->isGranted('ROLE_ADMIN')) {
-            $this->addFlash('danger', 'You must be logged in with ADMIN privileges to create a forum!');
+        // Redirect to the login if not connected
+        if ($this->accessControllerService->IsAdmin('You must have ADMIN privileges to create a new forum!')) {
             return $this->redirectToRoute('app_login');
-        }
+        };
 
         $forum = new Forum();
         $form = $this->createForm(ForumType::class, $forum);
@@ -74,8 +80,8 @@ class ForumController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $emi->persist($forum);
-            $emi->flush();
+            $this->entityManagerInterface->persist($forum);
+            $this->entityManagerInterface->flush();
 
             $this->addFlash('success', 'New forum just added!');
             return $this->redirectToRoute('app_admin');
@@ -88,25 +94,23 @@ class ForumController extends AbstractController
     }
 
     #[Route('/forum/{id}/edit', name: 'app_forum_edit')]
-    public function edit(EntityManagerInterface $emi, Request $request, int $id): Response
+    public function edit(Request $request, int $id): Response
     {
         // Redirect to the login if not connected as ADMIN or $id is not found
-        if (!$this->isGranted('ROLE_ADMIN')) {
-            $this->addFlash('danger', 'You must be logged in with ADMIN privileges to edit a forum!');
+        if ($this->accessControllerService->IsAdmin('You must have ADMIN privileges to edit a forum!')) {
             return $this->redirectToRoute('app_login');
-        } else if (!$emi->getRepository(Forum::class)->find($id)) {
-            $this->addFlash('danger', 'The forum you want to edit does not exist!');
-            return $this->redirectToRoute('app_forum');
+        } else if ($this->accessControllerService->IdIsCorrect($id, Forum::class, 'The forum you want to edit does not exist!')) {
+            return $this->redirectToRoute('app_admin');
         }
 
-        $forum = $emi->getRepository(Forum::class)->find($id);
+        $forum = $this->entityManagerInterface->getRepository(Forum::class)->find($id);
         $form = $this->createForm(ForumType::class, $forum);
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $emi->persist($forum);
-            $emi->flush();
+            $this->entityManagerInterface->persist($forum);
+            $this->entityManagerInterface->flush();
 
             $this->addFlash('success', 'Forum edited! Trying to make the proofs disappear?');
             return $this->redirectToRoute('app_admin');
@@ -120,21 +124,19 @@ class ForumController extends AbstractController
     }
 
     #[Route('/forum/{id}/delete', name: 'app_forum_delete')]
-    public function delete(EntityManagerInterface $emi, int $id): Response
+    public function delete(int $id): Response
     {
         // Redirect to the login if not connected as ADMIN or $id is not found
-        if (!$this->isGranted('ROLE_ADMIN')) {
-            $this->addFlash('danger', 'You must be logged in with ADMIN privileges to delete a forum!');
+        if ($this->accessControllerService->IsAdmin('You must have ADMIN privileges to delete a forum!')) {
             return $this->redirectToRoute('app_login');
-        } else if (!$emi->getRepository(Forum::class)->find($id)) {
-            $this->addFlash('danger', 'The forum you want to delete does not exist!');
-            return $this->redirectToRoute('app_forum');
+        } else if ($this->accessControllerService->IdIsCorrect($id, Forum::class, 'The forum you want to delete does not exist!')) {
+            return $this->redirectToRoute('app_admin');
         }
 
-        $forum = $emi->getRepository(Forum::class)->find($id);
+        $forum = $this->entityManagerInterface->getRepository(Forum::class)->find($id);
 
-        $emi->remove($forum);
-        $emi->flush();
+        $this->entityManagerInterface->remove($forum);
+        $this->entityManagerInterface->flush();
 
         $this->addFlash('success', 'Forum deleted! All posts related to this forum have been deleted as well!');
 

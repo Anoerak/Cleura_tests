@@ -7,6 +7,13 @@
 			border-top-left-radius: 5px;
 			border-top-right-radius: 5px;
 		}
+		div:nth-child(2) {
+			a.disabled {
+				opacity: 0.5;
+				cursor: not-allowed;
+				pointer-events: none;
+			}
+		}
 		div:nth-child(3) {
 			border-bottom-left-radius: 5px;
 			border-bottom-right-radius: 5px;

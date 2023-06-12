@@ -6,6 +6,7 @@ use App\Entity\User;
 use App\Form\UserType;
 use App\Form\AdminType;
 use App\Form\EditUserType;
+use App\Service\AccessControllerService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -15,21 +16,18 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class UserController extends AbstractController
 {
-    private $encoder;
 
-    public function __construct(UserPasswordHasherInterface $encoder)
+    public function __construct(private UserPasswordHasherInterface $encoder, private EntityManagerInterface $entityManagerInterface, private AccessControllerService $accessControllerService)
     {
-        $this->encoder = $encoder;
     }
 
     #[Route('/user/create', name: 'app_user_create')]
-    public function userCreateAction(EntityManagerInterface $emi, Request $request): Response
+    public function userCreateAction(Request $request): Response
     {
         // Redirect to the login if not connected as ADMIN
-        // if (!$this->isGranted('ROLE_ADMIN')) {
-        //     $this->addFlash('danger', 'You must be logged in with ADMIN privileges to see the list of users!');
-        //     return $this->redirectToRoute('app_login');
-        // }
+        if ($this->accessControllerService->IsAdmin('You must be logged in with ADMIN privileges to create a new user!')) {
+            return $this->redirectToRoute('app_login');
+        }
 
         $user = new User();
         $form = $this->createForm(UserType::class, $user);
@@ -40,8 +38,8 @@ class UserController extends AbstractController
             $password = $this->encoder->hashPassword($user, $user->getPassword());
             $user->setPassword($password);
 
-            $emi->persist($user);
-            $emi->flush();
+            $this->entityManagerInterface->persist($user);
+            $this->entityManagerInterface->flush();
 
             $this->addFlash('success', 'New user just added! Wait... Who are you?');
 
@@ -57,19 +55,16 @@ class UserController extends AbstractController
 
 
     #[Route('/user/{id}/edit', name: 'app_user_edit')]
-    public function userEditAction(User $user, Request $request, EntityManagerInterface $emi): Response
+    public function userEditAction(User $user, Request $request): Response
     {
 
         // Redirect to the login if not connected as USER or ADMIN, wrong $id or not the same user
-        if (!$this->isGranted('ROLE_USER')) {
-            $this->addFlash('danger', 'You must be logged in to edit a user!');
+        if (
+            $this->accessControllerService->IsConnected('You must be logged in to edit a user!') ||
+            $this->accessControllerService->IdIsCorrect($user->getId(), User::class, 'User not found!') ||
+            ($this->accessControllerService->EditUserProfileController($user, 'You are not allowed to edit this user!') && $this->accessControllerService->IsAdmin('You must be logged in with ADMIN privileges to edit a user!'))
+        ) {
             return $this->redirectToRoute('app_login');
-        } else if (!$user) {
-            $this->addFlash('danger', 'User not found!');
-            return $this->redirectToRoute('app_home');
-        } else if (!$this->isGranted('ROLE_ADMIN') && $this->getUser() !== $user) {
-            $this->addFlash('danger', 'You are not allowed to edit this user!');
-            return $this->redirectToRoute('app_home');
         }
 
         // If the user is ADMIN, he can edit all the fields
@@ -90,8 +85,8 @@ class UserController extends AbstractController
                 $user->setEmail($form->get('email')->getData());
             }
 
-            $emi->persist($user);
-            $emi->flush();
+            $this->entityManagerInterface->persist($user);
+            $this->entityManagerInterface->flush();
 
             if ($this->isGranted('ROLE_ADMIN')) {
                 $this->addFlash('success', 'We saved your modification(s)! At least we think we did...');
@@ -108,19 +103,19 @@ class UserController extends AbstractController
     }
 
     #[Route('/user/{id}/delete', name: 'app_user_delete')]
-    public function userDeleteAction(User $user, EntityManagerInterface $emi): Response
+    public function userDeleteAction(User $user): Response
     {
         // Redirect to the login if not connected as ADMIN or wrong $id
-        if (!$this->isGranted('ROLE_ADMIN')) {
-            $this->addFlash('danger', 'You must be logged in with ADMIN privileges to delete a user!');
+        if (
+            $this->accessControllerService->IsConnected('You must be logged in to delete a user!') ||
+            $this->accessControllerService->IdIsCorrect($user->getId(), User::class, 'User not found!') ||
+            $this->accessControllerService->IsAdmin('You must be logged in with ADMIN privileges to delete a user!')
+        ) {
             return $this->redirectToRoute('app_login');
-        } else if (!$user) {
-            $this->addFlash('danger', 'User not found!');
-            return $this->redirectToRoute('app_users_list');
         }
 
-        $emi->remove($user);
-        $emi->flush();
+        $this->entityManagerInterface->remove($user);
+        $this->entityManagerInterface->flush();
 
         $this->addFlash('success', 'The user has been deleted! Maybe...');
 

@@ -6,6 +6,9 @@ use App\Entity\Post;
 use App\Entity\User;
 
 use App\Entity\Forum;
+
+use App\Service\AccessControllerService;
+
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -46,17 +49,16 @@ class SecurityController extends AbstractController
     }
 
     #[Route('/admin', name: 'app_admin')]
-    public function adminDashboardAction(EntityManagerInterface $emi): Response
+    public function adminDashboardAction(EntityManagerInterface $entityManagerInterface, AccessControllerService $accessControllerService): Response
     {
         // Redirect to the login if not connected as ADMIN
-        if (!$this->isGranted('ROLE_ADMIN')) {
-            $this->addFlash('danger', 'You must be logged in with ADMIN privileges to access the admin dashboard!');
+        if ($accessControllerService->IsAdmin('You must be logged in with ADMIN privileges to see the admin dashboard!')) {
             return $this->redirectToRoute('app_login');
         }
 
-        $users = $emi->getRepository(User::class)->findAll();
-        $posts = $emi->getRepository(Post::class)->findAll();
-        $forums = $emi->getRepository(Forum::class)->findAll();
+        $users = $entityManagerInterface->getRepository(User::class)->findAll();
+        $posts = $entityManagerInterface->getRepository(Post::class)->findAll();
+        $forums = $entityManagerInterface->getRepository(Forum::class)->findAll();
 
         return $this->render('security/admin.html.twig', [
             'controller_name' => 'SecurityController',
