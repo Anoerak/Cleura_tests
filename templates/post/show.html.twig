@@ -16,11 +16,11 @@
 			<h1>Post
 				{{ post.id }}
 			</h1>
-			<h2>Created on
+			<h3s>Created on
 				{{ post.createdAt|date('Y-m-d') }}
 				by
 				{{ post.author.name }}
-			</h2>
+			</h3s>
 			<p>{{ post.message }}</p>
 			{# if user is author or ADMIN, we display edit and delete button #}
 			{% if is_granted('ROLE_ADMIN') or post.author.id == app.user.id %}
@@ -28,6 +28,34 @@
 					<a href="{{ path('app_post_edit', {'id': post.id}) }}" class="btn edit__button">Edit</a>
 					<a href="{{ path('app_post_delete', {'id': post.id}) }}" class="btn delete__button">Delete</a>
 				</div>
+			{% endif %}
+		</div>
+
+		<div class="show__comments">
+			<h2>Comments</h2>
+			{% if comments|length > 0 %}
+				{% for comment in comments %}
+					<div class="show__comment">
+						<h3>Comment
+							{{ comment.id }}
+						</h3>
+						<h4>Created on
+							{{ comment.createdAt|date('Y-m-d') }}
+							by
+							{{ comment.author.name }}
+						</h4>
+						<p>{{ comment.message }}</p>
+						{# if user is author or ADMIN, we display edit and delete button #}
+						{% if is_granted('ROLE_ADMIN') or comment.author.id == app.user.id %}
+							<div class="show__comment__buttons">
+								<a href="" class="btn edit__button">Edit</a>
+								<a href="" class="btn delete__button">Delete</a>
+							</div>
+						{% endif %}
+					</div>
+				{% endfor %}
+			{% else %}
+				<p>No comments yet</p>
 			{% endif %}
 		</div>
 

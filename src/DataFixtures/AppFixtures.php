@@ -36,7 +36,8 @@ class AppFixtures extends Fixture
         $user->setEmail('user@user.se')
             ->setRoles(['ROLE_USER'])
             ->setPassword($this->encoder->hashPassword($user, 'Cleur@2023'))
-            ->setName('user');
+            ->setName('user')
+            ->setIsVerified(true);
         $manager->persist($user);
 
         // We create one Forum named 'General' and one named 'Feedback'.

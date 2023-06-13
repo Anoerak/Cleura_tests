@@ -18,6 +18,7 @@
 				{% set jsUsers = jsUsers|merge([{
 				'id': user.id,
 				'name': user.name,
+				'user_name': app.user.name,
 				'email': user.email,
 				'roles': user.roles|join(', '),
 				'edit': path('app_user_edit', {'id': user.id}),
@@ -27,9 +28,10 @@
 			{% endfor %}
 			{% set jsForums = [] %}
 			{% for forum in forums %}
-				{% set jsForums = jsForums|merge([{
+			{% set jsForums = jsForums|merge([{
 				'id': forum.id,
 				'name': forum.name,
+				'user_name': app.user.name,
 				'edit': path('app_forum_edit', {'id': forum.id}),
 				'delete': path('app_forum_delete', {'id': forum.id}),
 				'privilege': 'admin'
@@ -37,12 +39,13 @@
 			{% endfor %}
 			{% set jsPosts = [] %}
 			{% for post in posts %}
-				{% set jsPosts = jsPosts|merge([{
+			{% set jsPosts = jsPosts|merge([{
 				'id': post.id,
 				'title': 'Title ' ~ post.id,
 				'message': post.message,
 				'author': post.author.name,
 				'forum': post.forum.name,
+				'user_name': app.user.name,
 				'created_at': post.createdAt,
 				'edit': path('app_post_edit', {'id': post.id}),
 				'delete': path('app_post_delete', {'id': post.id}),
