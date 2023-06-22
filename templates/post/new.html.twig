@@ -8,6 +8,15 @@
 	<section id="post-new">
 		<h1>New Post on Forum
 			{{ forum.name}}</h1>
+			{# We place a toggle switch to define which form will be used, post or video #}
+			<div class="switch__container">
+				<p>Post</p>
+				<label class="switch">
+					<input type="checkbox">
+					<span class="slider round"></span>
+				</label>
+				<p>Video</p>
+			</div>
 		<div class="new__post__container">
 			<div class="form">
 				{{ form_start(form) }}

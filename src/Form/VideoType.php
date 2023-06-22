@@ -2,13 +2,13 @@
 
 namespace App\Form;
 
-use App\Entity\Post;
+use App\Entity\Video;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 
-class PostType extends AbstractType
+class VideoType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
@@ -24,7 +24,7 @@ class PostType extends AbstractType
                 ]
             )
             ->add(
-                'message',
+                'path',
                 TextareaType::class,
                 [
                     'label' => 'Message',
@@ -34,13 +34,13 @@ class PostType extends AbstractType
                         'cols' => 50,
                     ],
                 ]
-            );
+            );;
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => Post::class,
+            'data_class' => Video::class,
         ]);
     }
 }

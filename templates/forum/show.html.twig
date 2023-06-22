@@ -22,6 +22,7 @@
 				'message': post.message,
 				'author': post.author.name,
 				'created_at': post.createdAt,
+				'forum': forum.name,
 				'consult': path('app_post_show', {'id': post.id}),
 				'edit': path('app_post_edit', {'id': post.id}),
 				'delete': path('app_post_delete', {'id': post.id}),

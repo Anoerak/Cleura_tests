@@ -32,17 +32,19 @@ class PostController extends AbstractController
             return $this->redirectToRoute('app_forum');
         };
 
-        // We get the post, the author and the forum from the database
+        // We get the post, the author, the forum and the comments for this post from the database
         $post = $this->entityManagerInterface->getRepository(Post::class)->find($id);
         $author = $post->getAuthor();
         $forumId = $post->getForum()->getId();
+        $comments = $post->getComments();
 
 
         return $this->render('post/show.html.twig', [
             'controller_name' => 'PostController',
             'post' => $post,
             'author' => $author,
-            'forumId' => $forumId
+            'forumId' => $forumId,
+            'comments' => $comments,
         ]);
     }
 
