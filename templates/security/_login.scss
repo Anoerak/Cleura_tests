@@ -1,5 +1,11 @@
-.form #login-form p {
-	font-size: 1rem;
-	font-weight: 300;
-	margin-top: 2rem;
+#login-htmx {
+	transition: all 0.5s ease-in-out;
+	&.form {
+		height: auto;
+		#login-form p {
+			font-size: 1rem;
+			font-weight: 300;
+			margin-top: 2rem;
+		}
+	}
 }

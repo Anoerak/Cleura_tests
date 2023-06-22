@@ -25,6 +25,9 @@ section#home {
 		font-weight: 300;
 		margin-bottom: 1rem;
 	}
+	#login-htmx {
+		transition: all 1s ease-in-out;
+	}
 	.dashboard {
 		max-width: 90%;
 		display: flex;

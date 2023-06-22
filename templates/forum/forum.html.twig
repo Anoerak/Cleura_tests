@@ -1,12 +1,9 @@
-{% extends 'base.html.twig' %}
-
-{% block title %}Cleura | Forums List
-{% endblock %}
-
-{% block body %}
+<div id="cleura-htmx">
 	<section id="forum">
 		<div class="nav__back__button">
-			<a href={{ path('app_home')}}>
+			<a
+				hx-target="#cleura-htmx" hx-swap="innerHTML" hx-post={{ path('app_home')}}>
+				{# href={{ path('app_home')}}> #}
 				<i class="fas fa-arrow-left"></i>
 				Back to home
 			</a>
@@ -23,4 +20,4 @@
 			</div>
 		</div>
 	</section>
-{% endblock %}
+</div>

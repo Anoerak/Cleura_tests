@@ -17,7 +17,9 @@
 					<a href="{{ path('app_logout') }}" class="navbar__link">Log Out</a>
 				{% else %}
 					{# <a id="connexion-button" class=" navbar__link">Get Started</a> #}
-					<a href="{{ path('app_login') }}" class="navbar__link">Get Started</a>
+					<a hx-target="#login-htmx" hx-swap="innerHTML" hx-get="{{ path('app_login') }}" {# href="{{ path('app_login') }}" #} class="navbar__link">
+						Get Started
+					</a>
 				{% endif %}
 			</div>
 			<img src="{{ asset('build/images/Cleura-Globe-Language.png')}}" alt="planet earth globe logo">

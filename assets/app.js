@@ -5,6 +5,9 @@ registerReactControllerComponents(require.context('./react/controllers', true, /
 import './styles/app.scss';
 // start the Stimulus application
 import './bootstrap';
+// We need to  import HTMX
+import 'htmx.org';
+window.htmx = require('htmx.org');
 
 // Font Awesome
 require('@fortawesome/fontawesome-free/css/all.min.css');

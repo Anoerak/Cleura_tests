@@ -33,6 +33,7 @@
 		"@emotion/react": "^11.10.6",
 		"@emotion/styled": "^11.10.6",
 		"@mui/material": "^5.13.3",
+		"htmx.org": "^1.9.2",
 		"react-data-table-component": "^7.5.3",
 		"styled-components": "^5.3.9"
 	}

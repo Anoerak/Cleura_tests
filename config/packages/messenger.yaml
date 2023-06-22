@@ -16,10 +16,7 @@ framework:
             # sync: 'sync://'
 
         routing:
-            Symfony\Component\Mailer\Messenger\SendEmailMessage: async
-            # App\Message\SendConfirmationAccountLinkMessage: async
-<<<<<<< HEAD
             # Route your messages to the transports
             # 'App\Message\YourMessage': async
-=======
->>>>>>> InheritanceMapping
+            Symfony\Component\Mailer\Messenger\SendEmailMessage: async
+            # App\Message\SendConfirmationAccountLinkMessage: async
